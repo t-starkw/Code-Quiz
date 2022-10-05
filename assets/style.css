@@ -29,3 +29,21 @@ button {
 button:hover {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
+#timer {
+    align-self: flex-start;
+}
+#quizContent {
+    align-self:center;
+}
+
+ul {
+    list-style: none;
+}
+li {
+    background-color: blueviolet;
+    font-size: 16px;
+    padding: 12px 28px;
+    border: 2px solid;
+    border-radius: 8px;
+    transition-duration: 0.4s;
+}
