@@ -13,17 +13,17 @@ var questions = [
     {
         title: "Question 2",
         choices: ["A", "B", "C", "D"],
-        answer: "B"
+        answer: "A"
     },
     {
         title: "Question 3",
         choices: ["A", "B", "C", "D"],
-        answer: "B"
+        answer: "A"
     },
     {
         title: "Question 4",
         choices: ["A", "B", "C", "D"],
-        answer: "B"
+        answer: "A"
     },
     {
         title: "Question 5",
@@ -46,7 +46,7 @@ startBtn.addEventListener("click", function() {
             timer.textContent = "Time: " + countdown;
             if (countdown <= 0) {
                 clearInterval(timeInterval);
-                alldone();
+                theEnd();
                 timer.textContent = "Time is up! 🕔";
             }
         }, 1000);
@@ -54,6 +54,7 @@ startBtn.addEventListener("click", function() {
     newQuestion(questionIndex)
 });
 
+// generates a new question
 function newQuestion(questionIndex) {
     quizContent.innerHTML = "";
     createUl.innerHTML = "";
@@ -64,26 +65,59 @@ function newQuestion(questionIndex) {
     }
     console.log(displayChoices);
     displayChoices.forEach(function (newItem) {
-        var listItem = document.createElement("button");
-        listItem.textContent = newItem;
+        var listItem = document.createElement("li");
+        listItem.innerHTML += "<button>" + newItem + "</button>";
         quizContent.appendChild(createUl);
         createUl.appendChild(listItem);
         listItem.addEventListener("click", (checkAns));
     })
 }
+var i = 0;
+var newDiv = document.createElement("div");
+var feedback = document.createElement("h2");
+newDiv.setAttribute("id", "newDiv");
+// checks to see if selected answer is correct & inserts feedback (correct/incorrect)
 function checkAns(event) {
-    var element = event.target;
-    if (element.matches("button")) {
-        var newDiv = document.createElement("div");
-        newDiv.setAttribute("id", "newDiv");
-        if (element.textContent == questions[questionIndex].answer) {
-            score++;
-            newDiv.textContent = "Correct! ✅";
-        } else {
-            countdown -= penalty;
-            newDiv.textContent = "Incorrect ❌";
-        }
+        var choice = event.target;
+        i++
+        console.log(i);
+        quizContent.appendChild(newDiv);
+        newDiv.appendChild(feedback);
+
+        console.log(choice);
+        console.log(questions[questionIndex].answer);
+// condition that selected answer is correct
+    if (choice.textContent == questions[questionIndex].answer) {
+        score++;
+
+        feedback.textContent = "Correct! 😊";
+        newDiv.appendChild(feedback);
+        var next = document.createElement("button");
+        next.textContent = "Next Question";
+        newDiv.appendChild(next);
+        next.addEventListener("click", (movingOn));
+//condition that the selected answer is incorrect
+    } else {
+        countdown = countdown - penalty;
+        feedback.textContent = "Incorrect! 🙁";
+        newDiv.appendChild(feedback);
+    }
+}
+function movingOn(event) {
+    newDiv.innerHTML = "";
+    questionIndex++;
+    if (questionIndex >= questions.length) {
+        theEnd();
+    } else {
+        newQuestion(questionIndex);
+
     }
 }
 
 
+function theEnd() {
+    quizContent.innerHTML = "";
+    timer.innerHTML = "";
+// highscore page where you enter initials and submit
+// calculation and display of final score
+};
