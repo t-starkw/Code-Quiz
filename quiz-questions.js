@@ -1,43 +1,45 @@
 var score = 0;
 var container = document.querySelector("#container");
 var quizContent = document.querySelector("#quizContent");
+var questionTitle = document.querySelector("#qTitle")
 var timer = document.querySelector("#timer");
-var startBtn = document.querySelector("#start")
+var startBtn = document.querySelector("#start");
 
 var questions = [
     {
-        title: "Question 1",
-        choices: ["A", "B", "C", "D"],
-        answer: "B"
+        title: "The first index of an array is: ",
+        choices: ["0", "1", "Whatever you Want", "What is an Array?"],
+        answer: "0"
     },
     {
-        title: "Question 2",
-        choices: ["A", "B", "C", "D"],
-        answer: "A"
+        title: "What is the boolean output of the following statement?: 'five' === 5",
+        choices: ["0", "undefined", "true", "false"],
+        answer: "false"
     },
     {
-        title: "Question 3",
-        choices: ["A", "B", "C", "D"],
-        answer: "A"
+        title: "Which of the following HTML tags would result in bold text?",
+        choices: ["< bold >", "< em >", "< br >", "< strong >"],
+        answer: "< strong >"
     },
     {
-        title: "Question 4",
-        choices: ["A", "B", "C", "D"],
-        answer: "A"
+        title: "Which CSS property controls text size?",
+        choices: ["font-size", "text-size", "font-style", "size"],
+        answer: "font-size"
     },
     {
-        title: "Question 5",
-        choices: ["A", "B", "C", "D"],
-        answer: "B"
+        title: "How do you add a comment in a JavaScript file?",
+        choices: ["< !-- Comment -->", "//Comment", "/*Comment*/", "~Comment~"],
+        answer: "//Comment"
     }
 ];
 var questionIndex = 0;
 
 var createUl = document.createElement("ul");
+createUl.setAttribute("id", "optionsUl")
 
 var timeInterval = 0;
 var countdown = 75;
-var penalty = 5;
+var penalty = 10;
 
 startBtn.addEventListener("click", function() {
     if (timeInterval === 0) {
@@ -47,7 +49,6 @@ startBtn.addEventListener("click", function() {
             if (countdown <= 0) {
                 clearInterval(timeInterval);
                 theEnd();
-                timer.textContent = "Time is up! 🕔";
             }
         }, 1000);
     }
@@ -58,10 +59,12 @@ startBtn.addEventListener("click", function() {
 function newQuestion(questionIndex) {
     quizContent.innerHTML = "";
     createUl.innerHTML = "";
+    var displayQuestion = document.createElement("h1");
+
     for (var i = 0; i < questions.length; i++) {
-        var displayQuestion = questions[questionIndex].title;
+        displayQuestion.innerHTML = questions[questionIndex].title;
         var displayChoices = questions[questionIndex].choices;
-        quizContent.textContent = displayQuestion;
+        quizContent.appendChild(displayQuestion);
     }
     console.log(displayChoices);
     displayChoices.forEach(function (newItem) {
@@ -80,21 +83,18 @@ newDiv.setAttribute("id", "newDiv");
 // checks to see if selected answer is correct & inserts feedback (correct/incorrect)
 function checkAns(event) {
         var choice = event.target;
-        i++
-        console.log(i);
         quizContent.appendChild(newDiv);
         newDiv.appendChild(feedback);
+        var next = document.createElement("button");
+        next.setAttribute("id", "nextButton");
+        next.textContent = "Next Question";
 
-        console.log(choice);
-        console.log(questions[questionIndex].answer);
 // condition that selected answer is correct
     if (choice.textContent == questions[questionIndex].answer) {
         score++;
-
         feedback.textContent = "Correct! 😊";
         newDiv.appendChild(feedback);
-        var next = document.createElement("button");
-        next.textContent = "Next Question";
+        
         newDiv.appendChild(next);
         next.addEventListener("click", (movingOn));
 //condition that the selected answer is incorrect
@@ -104,6 +104,7 @@ function checkAns(event) {
         newDiv.appendChild(feedback);
     }
 }
+// Decides whether to initiate final pages or to cycle through next question
 function movingOn(event) {
     newDiv.innerHTML = "";
     questionIndex++;
@@ -119,26 +120,31 @@ function movingOn(event) {
 function theEnd() {
     quizContent.innerHTML = "";
     timer.innerHTML = "";
-// highscore page where you enter initials and submit
+// Sets up high score page
     var newH1 = document.createElement("h1");
     newH1.setAttribute("id", "newH1");
     newH1.textContent = "Finished!"
     quizContent.appendChild(newH1);
 
-    var newP = document.createElement("p");
-    newP.setAttribute("id", "newP");
-    quizContent.appendChild(newP);
 
-// calculation and display of final score
+// Calculation and display of final score
     if (countdown >= 0) {
-        var timeLeft = countdown;
+        score = countdown;
         clearInterval(timeInterval);
-        var newP2 = document.createElement("p");
-        newP2.textContent = "Your final score is: " + timeLeft;
-        newP.appendChild(newP2);
+        var newP = document.createElement("p");
+        newP.textContent = "Your final score is: " + score;
+        quizContent.appendChild(newP);
+    } else {
+        score = 0;
+        var outOfTime = document.createElement("h2");
+        outOfTime.textContent = "Time is up! 🕔";
+        quizContent.appendChild(outOfTime);
+        var newP = document.createElement("p");
+        newP.textContent = "Your final score is: " + score;
+        quizContent.appendChild(newP);
     }
 
-// Initials submission box
+// Initials submission box and button
     var inputBox = document.createElement("input");
     inputBox.setAttribute("type", "text");
     inputBox.setAttribute("id", "inputBox")  
@@ -151,29 +157,30 @@ function theEnd() {
     submit.textContent = "Submit";
     quizContent.appendChild(submit);
 
-// Event listener for initials and score
+// Event listener for submission button and storage initials and score
     submit.addEventListener("click", function() {
         var initials = inputBox.value;
 
-        if (initials === null) {
-            alert("Please enter your initials");
+        if (initials === "") {
+            console.log("No initials entered")
+            window.alert("Please enter your initials");
 
         } else {
             var finalScore = {
                 initials: initials,
-                score: timeLeft
+                score: score
             }
-        }
     // Storage of past scores
-        var storeScores = localStorage.getItem("storeScores");
-        if (storeScores === null) {
-            storeScores = [];
-        } else {
-            storeScores = JSON.parse(storeScores);
+            var storeScores = localStorage.getItem("storeScores");
+            if (storeScores === null) {
+                storeScores = [];
+            } else {
+                storeScores = JSON.parse(storeScores);
+            }
+            storeScores.push(finalScore);
+            var newScore = JSON.stringify(storeScores);
+            localStorage.setItem("storeScores", newScore);
+            window.location.replace("highscores.html");
         }
-        storeScores.push(finalScore);
-        var newScore = JSON.stringify(storeScores);
-        localStorage.setItem("storeScores", newScore);
-        window.location.replace("highscores.html");
-    })
+    });
 };
