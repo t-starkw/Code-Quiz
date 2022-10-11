@@ -32,11 +32,11 @@ var questions = [
     }
 ];
 var questionIndex = 0;
+
 var createUl = document.createElement("ul");
 
 var timeInterval = 0;
 var countdown = 75;
-
 var penalty = 5;
 
 startBtn.addEventListener("click", function() {
@@ -72,6 +72,7 @@ function newQuestion(questionIndex) {
         listItem.addEventListener("click", (checkAns));
     })
 }
+
 var i = 0;
 var newDiv = document.createElement("div");
 var feedback = document.createElement("h2");
@@ -119,5 +120,60 @@ function theEnd() {
     quizContent.innerHTML = "";
     timer.innerHTML = "";
 // highscore page where you enter initials and submit
+    var newH1 = document.createElement("h1");
+    newH1.setAttribute("id", "newH1");
+    newH1.textContent = "Finished!"
+    quizContent.appendChild(newH1);
+
+    var newP = document.createElement("p");
+    newP.setAttribute("id", "newP");
+    quizContent.appendChild(newP);
+
 // calculation and display of final score
+    if (countdown >= 0) {
+        var timeLeft = countdown;
+        clearInterval(timeInterval);
+        var newP2 = document.createElement("p");
+        newP2.textContent = "Your final score is: " + timeLeft;
+        newP.appendChild(newP2);
+    }
+
+// Initials submission box
+    var inputBox = document.createElement("input");
+    inputBox.setAttribute("type", "text");
+    inputBox.setAttribute("id", "inputBox")  
+    inputBox.textContent = "";
+    quizContent.appendChild(inputBox)
+    
+    var submit = document.createElement("button");
+    submit.setAttribute("type", "submit");
+    submit.setAttribute("id", "submit");
+    submit.textContent = "Submit";
+    quizContent.appendChild(submit);
+
+// Event listener for initials and score
+    submit.addEventListener("click", function() {
+        var initials = inputBox.value;
+
+        if (initials === null) {
+            alert("Please enter your initials");
+
+        } else {
+            var finalScore = {
+                initials: initials,
+                score: timeLeft
+            }
+        }
+    // Storage of past scores
+        var storeScores = localStorage.getItem("storeScores");
+        if (storeScores === null) {
+            storeScores = [];
+        } else {
+            storeScores = JSON.parse(storeScores);
+        }
+        storeScores.push(finalScore);
+        var newScore = JSON.stringify(storeScores);
+        localStorage.setItem("storeScores", newScore);
+        window.location.replace("highscores.html");
+    })
 };
