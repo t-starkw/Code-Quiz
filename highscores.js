@@ -21,6 +21,7 @@ if (storeScores !== null) {
         var addScore = document.createElement("li");
         addScore.setAttribute("id", "scoreLi");
         addScore.textContent = storeScores[i].initials + " " + storeScores[i].score;
+
         highScores.appendChild(addScore);
     }
 };
