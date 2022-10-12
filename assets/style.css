@@ -9,17 +9,21 @@ body {
     background-color: #21D4FD;
     background-image: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);
     background-attachment: scroll;
+    box-sizing: border-box;
+    margin: 0; 
 }
 h1 {
-    font-size: 30px;
+    font-size: 2em;
 }
 ul {
     list-style: none;
+    padding-inline-start: 0px;
 }
 button {
+    display: inline-block;
     background-color: blueviolet;
-    font-size: 16px;
-    padding: 12px 28px;
+    font-size: 12px;
+    padding: 7px 8px;
     border: 2px solid;
     border-radius: 8px;
     transition-duration: 0.4s;
@@ -35,27 +39,30 @@ button:hover {
     padding: 5px 10px;
 }
 #container {
-    margin: auto;
-    margin-top: 5%;
-    width: 50%;
-    height: 50%;
     display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-}
-#quizContent {
-    text-align: center;
+    max-width: 50%;
+    margin: auto;
+    height: 75%;
+    box-sizing: border-box;
+    padding: 20px 0;
 }
 #timer {
-    align-self: flex-end;
+    text-align: center;
 }
-#newDiv {
-    position: absolute;
-
+#quizContent {     
+    text-align: center;
+}
+#quizContent h2 {
+    text-align: left;
+}
+#optionsUl {
+    text-align: left;
 }
 #scoreLi {
     color: white;
     font-size: 20px;
 
 }
+
