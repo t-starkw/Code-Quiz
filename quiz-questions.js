@@ -145,6 +145,11 @@ function theEnd() {
     }
 
 // Initials submission box and button
+    var initialsPrompt = document.createElement("label");
+    initialsPrompt.setAttribute("for", "inputBox");
+    initialsPrompt.textContent = "Enter your initials: ";
+    quizContent.appendChild(initialsPrompt);
+
     var inputBox = document.createElement("input");
     inputBox.setAttribute("type", "text");
     inputBox.setAttribute("id", "inputBox")  
