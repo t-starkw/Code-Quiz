@@ -59,7 +59,7 @@ startBtn.addEventListener("click", function() {
 function newQuestion(questionIndex) {
     quizContent.innerHTML = "";
     createUl.innerHTML = "";
-    var displayQuestion = document.createElement("h1");
+    var displayQuestion = document.createElement("h2");
 
     for (var i = 0; i < questions.length; i++) {
         displayQuestion.innerHTML = questions[questionIndex].title;
@@ -78,7 +78,7 @@ function newQuestion(questionIndex) {
 
 var i = 0;
 var newDiv = document.createElement("div");
-var feedback = document.createElement("h2");
+var feedback = document.createElement("h3");
 newDiv.setAttribute("id", "newDiv");
 // checks to see if selected answer is correct & inserts feedback (correct/incorrect)
 function checkAns(event) {
